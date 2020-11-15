@@ -6,8 +6,8 @@ class Data {
 
     this.context = this.canvas.getContext("2d");
     this.img = new Image();
-    this.src.addEventListener("change", () => {
-      this.img.src = this.src.value.split("\\").pop();
+    this.src.addEventListener("change", (e) => {
+      this.img.src = URL.createObjectURL(e.target.files[0]);
       this.img.onload = () => {
         this.context.drawImage(
           this.img,
