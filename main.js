@@ -30,7 +30,6 @@ class Data {
         this.canvas.width,
         this.canvas.height
       );
-
     for (let i = 0; i < pixelData.data.length; i += 4) {
       rgba.r.push(pixelData.data[i]);
       rgba.g.push(pixelData.data[i + 1]);
@@ -64,7 +63,7 @@ function hasilRMSE() {
     alpha += Math.pow(Math.abs(img1.a[i] - img2.a[i]), 2);
   }
 
-  return Math.sqrt((red + blue + green + alpha) / (img1.r.length * 16777216)); //angka disesuaikan sebelumnya 4
+  return Math.sqrt((red + blue + green + alpha) / (img1.r.length * 4)); //angka disesuaikan sebelumnya 4
 }
 
 src[0].onclick = () => {
@@ -86,30 +85,30 @@ src[1].onclick = () => {
 
 ///ketika tombol btn diklik
 btn.addEventListener("click", () => {
+  let hasil = hasilRMSE();
   if (src[0].value == "" || src[1].value == "") {
     alert("Pilih Kedua Gambar Terlebih Dahulu");
     return false;
   } else {
     src.forEach((i) => (i.style.display = "none"));
-    if (hasilRMSE() == 0) {
+    if (hasil == 0) {
       btn.innerHTML = "Sama";
-    } else if (hasilRMSE() <= 0.01) {
+    } else if (hasil <= 0.01) {
       btn.innerHTML = "Mirip";
     } else {
       {
         btn.innerHTML = "Beda";
       }
     }
+    setTimeout(() => {
+      btn.innerHTML = "Compare";
+      src.forEach((i) => {
+        i.style.display = "block";
+        i.value = "";
+      });
+      canvas.forEach((i) => {
+        i.getContext("2d").clearRect(0, 0, i.width, i.height);
+      });
+    }, 3000);
   }
-
-  setTimeout(() => {
-    btn.innerHTML = "Compare";
-    src.forEach((i) => {
-      i.style.display = "block";
-      i.value = "";
-    });
-    canvas.forEach((i) => {
-      i.getContext("2d").clearRect(0, 0, i.width, i.height);
-    });
-  }, 3000);
 });
