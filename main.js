@@ -6,12 +6,13 @@ class Data {
     this.img = new Image();
     this.ctx = this.canvas.getContext("2d");
 
+    this.src.addEventListener("change", (e) => this.createImg(e));
+    this.src.addEventListener("click", () => this.removeImg());
+
     this.img.addEventListener("load", () => {
       this.ctx.drawImage(this.img, 0, 0, this.canvas.width, this.canvas.height);
       this.getRGB();
     });
-    this.src.addEventListener("change", (e) => this.createImg(e));
-    this.src.addEventListener("click", () => this.removeImg());
   }
 
   createImg(e) {
